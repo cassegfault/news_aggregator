@@ -75,9 +75,11 @@ def list_route():
 		posts_sources[row[1]] = row[5]
 		site_domain = tldextract.extract(unicode(row[2]))
 		if site_domain == '.' or site_domain == 'www':
-			site_domain = '.'.join([site_domain['domain'], site_domain['suffix']])
+			pieces = [site_domain['domain'], site_domain['suffix']]
+			site_domain = '.'.join(pieces)
 		else:
-			site_domain = '.'.join([site_domain['subdomain'], site_domain['domain'], site_domain['suffix']])
+			pieces =[site_domain['subdomain'], site_domain['domain'], site_domain['suffix']]
+			site_domain = '.'.join(pieces)
 		
 	c.execute("SELECT posts.source_id, score FROM post_scores LEFT JOIN posts ON post_id=posts.id")
 	for row in c.fetchall():
