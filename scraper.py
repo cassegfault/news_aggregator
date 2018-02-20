@@ -84,6 +84,9 @@ def parse_reddit_source(data, source):
 		response_list.append( (body, media, perma, c['title'].encode('utf-8').strip(), mysql_ts(int(c['created'])), source['id']) )
 	return response_list
 
+def parse_hn_timestamp(ts):
+	return time.mktime(datetime.datetime.strptime(s, '%a, %e %b %Y %T').timetuple())
+
 def parse_hacker_news(data, source):
 	tree = ET.fromstring(data)
 	result_list = []
@@ -92,7 +95,7 @@ def parse_hacker_news(data, source):
 	        item = {}
 	        for c in child:
 	            item[c.tag] = c.text
-	        result_list.append( [item['link'], None, item['comments'], item['title'], mysql_ts(item['pubDate']), source['id']] )
+	        result_list.append( [item['link'], None, item['comments'], item['title'], parse_hn_timestamp(item['pubDate']), source['id']] )
 
 
 def tick():
