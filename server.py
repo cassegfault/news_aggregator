@@ -110,6 +110,7 @@ def list_route():
 	# Allow the actual method
 	resp.headers['Access-Control-Allow-Methods'] = request.headers['Access-Control-Request-Method']
     return resp
+    
 
 if __name__ == "__main__":
 	app.run(port=config['port'])
