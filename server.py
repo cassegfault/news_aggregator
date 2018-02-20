@@ -103,6 +103,12 @@ def list_route():
 	source_score_avg = numpy.mean(source_score_totals)
 	source_score_std = numpy.std(source_score_totals)
 
+	def source_to_score(source_id):
+		source_score = sum(source_scores[source_id])
+		if int(source_score) == 0 or float(source_score_std) == 0.0:
+			return 0
+		return float(float(source_score) - float(source_score_avg)) / float(source_score_std)
+
 	#get an average for sites
 	site_score_totals = []
 	for site, scores in site_scores.iteritems():
@@ -111,22 +117,16 @@ def list_route():
 	site_score_avg = numpy.mean(site_score_totals)
 	site_score_std = numpy.std(site_score_totals)
 
-	now = time.time()
-	def ts_to_score(ts):
-		days = int((now - ts) / 86400.0)
-		return float(0 - days)
-
-	def source_to_score(source_id):
-		source_score = sum(source_scores[source_id])
-		if int(source_score) == 0 or float(source_score_std) == 0.0:
-			return 0
-		return float(float(source_score) - float(source_score_avg)) / float(source_score_std)
-
 	def site_to_score(site):
 		site_score = sum(site_scores[site])
 		if int(site_score) == 0 or float(site_score_std) == 0.0:
 			return 0
 		return float(float(site_score) - float(site_score_avg)) / float(site_score_std)
+
+	now = time.time()
+	def ts_to_score(ts):
+		days = int((now - ts) / (86400.0 / 2))
+		return float(0 - days)
 
 	for post in posts:
 		site_domain = normalize_domain(post['body'])

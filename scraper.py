@@ -50,7 +50,7 @@ def build_sources_list():
 		sources_list.append(source)
 
 
-post_query  = "INSERT IGNORE INTO posts (body, media, url, title, date_created, source_id) VALUES (%s, %s, %s, %s, %s, %s)"
+post_query  = "INSERT IGNORE INTO posts (body, media, description, url, title, date_created, source_id) VALUES (%s, %s, %s, %s, %s, %s)"
 
 def mysql_ts(in_ts):
 	return datetime.datetime.fromtimestamp(in_ts).strftime('%Y-%m-%d %H:%M:%S')
@@ -81,11 +81,14 @@ def parse_reddit_source(data, source):
 				print "error writing image", body
 		
 
-		response_list.append( (body, media, perma, c['title'].encode('utf-8').strip(), mysql_ts(int(c['created'])), source['id']) )
+		response_list.append( (body, media, None, perma, c['title'].encode('utf-8').strip(), mysql_ts(int(c['created'])), source['id']) )
 	return response_list
 
 def parse_hn_timestamp(ts):
 	return time.mktime(datetime.datetime.strptime(ts, '%a, %d %b %Y %H:%M:%S +0000').timetuple())
+
+def parse_nyt_timestamp(ts):
+	return time.mktime(datetime.datetime.strptime(ts, '%a, %d %b %Y %H:%M:%S GMT').timetuple())
 
 def parse_hacker_news(data, source):
 	tree = ET.fromstring(data)
@@ -95,7 +98,19 @@ def parse_hacker_news(data, source):
 			item = {}
 			for c in child:
 				item[c.tag] = c.text
-			result_list.append( [item['link'], None, item['comments'], item['title'], mysql_ts(parse_hn_timestamp(item['pubDate'])), source['id']] )
+			result_list.append( [item['link'], None, None, item['comments'], item['title'], mysql_ts(parse_hn_timestamp(item['pubDate'])), source['id']] )
+	return result_list
+
+def parse_ny_times(data, source):
+	result_list = []
+	tree = ET.fromstring(data)
+	for child in tree[0]:
+		if child.tag == 'item':
+			item = {}
+			for c in child:
+				if c.tag in ['pubDate', 'title', 'link', 'description']:
+					item[c.tag] = c.text
+				result_list.append( [item['link'], None, item['description'], item['link'], item['title'],  mysql_ts(parse_nyt_timestamp(item['pubDate'])), source['id']] )
 	return result_list
 
 def tick():
@@ -125,6 +140,8 @@ def tick():
 				result_list = parse_reddit_source(data, source)
 			elif source['type'] == 'hacker_news':
 				result_list = parse_hacker_news(data, source)
+			elif source['type'] == 'new_york_times':
+				result_list = parse_ny_times(data, source)
 
 			for params in result_list:
 				sql.execute(post_query, params)
