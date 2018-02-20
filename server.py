@@ -51,7 +51,7 @@ def rate_route():
 
 @app.route('/list', methods=['GET'])
 @db_route
-def rate_route():
+def list_route():
 	global c, cnx
 	c.execute("SELECT id, title, body, url, date_created FROM posts")
 	posts = []
