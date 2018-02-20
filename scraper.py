@@ -85,7 +85,7 @@ def parse_reddit_source(data, source):
 	return response_list
 
 def parse_hn_timestamp(ts):
-	return time.mktime(datetime.datetime.strptime(ts, '%a, %d %b %Y %H:%M:%S').timetuple())
+	return time.mktime(datetime.datetime.strptime(ts, '%a, %d %b %Y %H:%M:%S +0000').timetuple())
 
 def parse_hacker_news(data, source):
 	tree = ET.fromstring(data)
