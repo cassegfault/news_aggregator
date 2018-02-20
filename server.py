@@ -106,11 +106,11 @@ def list_route():
 
 
 	resp = Response(response=json.dumps(sorted(posts, key=lambda p: p['score'], reverse=True), ensure_ascii=False), status=200, mimetype='application/json')
+
 	resp.headers['Access-Control-Allow-Origin'] = request.headers['Origin']
-	# Allow the actual method
 	resp.headers['Access-Control-Allow-Methods'] = request.headers['Access-Control-Request-Method']
-    return resp
-    
+	return resp
+
 
 if __name__ == "__main__":
 	app.run(port=config['port'])
