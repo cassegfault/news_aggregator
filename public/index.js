@@ -42,9 +42,8 @@ function element(string){
   Actual Code
 ***/
 
-var list_root;
+
 (function iife(){
-	list_root = document.getElementById("item-list");
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET","/api/list");
 	xhr.onload = function list_ready(){
@@ -65,8 +64,8 @@ function make_click_func(post_id, score){
 }
 
 
-
 function buildList(listData){
+	var list_root = document.getElementById("item-list");
 	listData.forEach(function list_item_builder(post){
 		var root_el = element(".list-item"),
 			up_btn = element(".vote_up"),
