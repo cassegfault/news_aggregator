@@ -115,10 +115,13 @@ def parse_ny_times(data, source):
 				if 'description' not in item:
 					item['description'] = None
 				if 'pubDate' not in item:
-					item['pubDate'] = time.time()
+					item['pubDate'] = mysql_ts(time.time())
 				else:
-					item['pubDate'] = mysql_ts(parse_nyt_timestamp(item['pubDate']))
-				result_list.append( [item['link'], None, item['description'], item['link'], item['title'],  item['pubDate'], source['id']] )
+					try:
+						item['pubDate'] = mysql_ts(parse_nyt_timestamp(item['pubDate']))
+					except:
+						item['pubDate'] = mysql_ts(time.time())
+				result_list.append( [item['link'], None, item['description'], item['link'], item['title'], item['pubDate'], source['id']] )
 	return result_list
 
 def tick():
