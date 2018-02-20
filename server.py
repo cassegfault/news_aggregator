@@ -105,7 +105,7 @@ def list_route():
 		post['score'] = source_to_score(post['source_id']) + ts_to_score(post['date_created'])
 
 
-	return Response(response=json.dumps(sorted(posts, key='score', reverse=True), ensure_ascii=False), status=200, mimetype='application/json')
+	return Response(response=json.dumps(sorted(posts, key=lambda p: p['score'], reverse=True), ensure_ascii=False), status=200, mimetype='application/json')
 
 if __name__ == "__main__":
 	app.run(port=config['port'])
