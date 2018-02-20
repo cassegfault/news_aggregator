@@ -67,6 +67,7 @@ def list_route():
 	sites = defaultdict(lambda: [])
 	source_scores = defaultdict(lambda: [])
 	source_score_avg = 0.0
+	site_scores = defaultdict(lambda: [])
 	for row in c.fetchall():
 		posts.append({
 			'id': row[0],
@@ -78,15 +79,19 @@ def list_route():
 			'via': row[6]
 			})
 		posts_sources[row[1]] = row[5]
-		parts = tldextract.extract(unicode(row[2]))
-		site_domain = '.'.join(part for part in parts if part and part != 'www')
+		
 
 		
-	c.execute("SELECT posts.source_id, score FROM post_scores LEFT JOIN posts ON post_id=posts.id")
+	c.execute("SELECT posts.source_id, score, posts.body FROM post_scores LEFT JOIN posts ON post_id=posts.id")
 	for row in c.fetchall():
 		source_scores[row[0]].append(row[1])
 
-	#get an average for building
+		# Get the domain to rank those
+		parts = tldextract.extract(unicode(row[2]))
+		site_domain = '.'.join(part for part in parts if part and part != 'www')
+		site_scores[site_domain].append(row[1])
+
+	#get an average for sources
 	source_score_totals = []
 	for source, scores in source_scores.iteritems():
 		source_score_totals.append(float(sum(scores)))
@@ -94,8 +99,14 @@ def list_route():
 	source_score_avg = numpy.mean(source_score_totals)
 	source_score_std = numpy.std(source_score_totals)
 
-	print source_score_avg, source_score_std
-	
+	#get an average for sites
+	site_score_totals = []
+	for site, scores in site_scores.iteritems():
+		site_score_totals.append(float(sum(scores)))
+
+	site_score_avg = numpy.mean(site_score_totals)
+	site_score_std = numpy.std(site_score_totals)
+
 	now = time.time()
 	def ts_to_score(ts):
 		days = int((now - ts) / 86400.0)
@@ -107,8 +118,14 @@ def list_route():
 			return 0
 		return float(float(source_score) - float(source_score_avg)) / float(source_score_std)
 
+	def site_to_score(source_id):
+		site_score = sum(site_scores[source_id])
+		if int(site_score) == 0 or float(site_score_std) == 0.0:
+			return 0
+		return float(float(site_score) - float(site_score_avg)) / float(site_score_std)
+
 	for post in posts:
-		post['score'] = source_to_score(post['source_id']) + ts_to_score(post['date_created'])
+		post['score'] = source_to_score(post['source_id']) + ts_to_score(post['date_created']) + site_to_score(post['body'])
 
 
 	resp = Response(response=json.dumps(sorted(posts, key=lambda p: p['score'], reverse=True), ensure_ascii=False), status=200, mimetype='application/json')
