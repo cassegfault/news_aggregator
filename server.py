@@ -4,6 +4,7 @@ import mysql.connector
 from functools import wraps
 
 app = Flask(__name__)
+app.config["APPLICATION_ROOT"] = "/api"
 
 config = {}
 with open('config.json','r') as config_file:
@@ -67,3 +68,4 @@ def list_route():
 
 if __name__ == "__main__":
 	app.run(port=config['port'])
+
