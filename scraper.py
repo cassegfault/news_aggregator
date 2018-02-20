@@ -112,6 +112,8 @@ def parse_ny_times(data, source):
 					item[c.tag] = c.text
 				if 'link' not in item:
 					continue
+				if 'description' not in item:
+					item['description'] = None
 				result_list.append( [item['link'], None, item['description'], item['link'], item['title'],  mysql_ts(parse_nyt_timestamp(item['pubDate'])), source['id']] )
 	return result_list
 
