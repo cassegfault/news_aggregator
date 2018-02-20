@@ -55,6 +55,7 @@ def rate_route():
 
 	c.execute("INSERT INTO post_scores (post_id, score) VALUES (%s, %s)", [link_id, score_modifier])
 	cnx.commit()
+	return Response(status=200)
 
 @app.route('/api/list', methods=['GET'])
 @db_route
