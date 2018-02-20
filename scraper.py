@@ -50,7 +50,7 @@ def build_sources_list():
 		sources_list.append(source)
 
 
-post_query  = "INSERT IGNORE INTO posts (body, media, description, url, title, date_created, source_id) VALUES (%s, %s, %s, %s, %s, %s)"
+post_query  = "INSERT IGNORE INTO posts (body, media, description, url, title, date_created, source_id) VALUES (%s, %s, %s, %s, %s, %s, %s)"
 
 def mysql_ts(in_ts):
 	return datetime.datetime.fromtimestamp(in_ts).strftime('%Y-%m-%d %H:%M:%S')
