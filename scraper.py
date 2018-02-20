@@ -91,12 +91,12 @@ def parse_hacker_news(data, source):
 	tree = ET.fromstring(data)
 	result_list = []
 	for child in tree[0]:
-	    if child.tag == 'item':
-	        item = {}
-	        for c in child:
-	            item[c.tag] = c.text
-	        result_list.append( [item['link'], None, item['comments'], item['title'], parse_hn_timestamp(item['pubDate']), source['id']] )
-
+		if child.tag == 'item':
+			item = {}
+			for c in child:
+				item[c.tag] = c.text
+			result_list.append( [item['link'], None, item['comments'], item['title'], parse_hn_timestamp(item['pubDate']), source['id']] )
+	return result_list
 
 def tick():
 	global last_tick, sources_list, post_query
