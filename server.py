@@ -107,8 +107,6 @@ def list_route():
 
 	resp = Response(response=json.dumps(sorted(posts, key=lambda p: p['score'], reverse=True), ensure_ascii=False), status=200, mimetype='application/json')
 
-	resp.headers['Access-Control-Allow-Origin'] = request.headers['Origin']
-	resp.headers['Access-Control-Allow-Methods'] = request.headers['Access-Control-Request-Method']
 	return resp
 
 
