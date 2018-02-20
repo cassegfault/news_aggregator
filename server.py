@@ -58,9 +58,9 @@ def list_route():
 	for row in c.fetchall():
 		posts.append({
 			'id': row[0],
-			'title': row[1],
-			'body': row[2],
-			'url': row[3],
+			'title': str(row[1]),
+			'body': str(row[2]),
+			'url': str(row[3]),
 			'date_created': row[4]
 			})
 	return Response(response=json.dumps(posts), status=200, mimetype='application/json')
