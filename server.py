@@ -4,7 +4,6 @@ import mysql.connector
 from functools import wraps
 
 app = Flask(__name__)
-app.config["APPLICATION_ROOT"] = "/api"
 
 config = {}
 with open('config.json','r') as config_file:
@@ -40,7 +39,7 @@ def get_param(name):
 		res = request.form.get(name, None)
 	return res
 
-@app.route('/rate', methods=['POST'])
+@app.route('/api/rate', methods=['POST'])
 @db_route
 def rate_route():
 	global c, cnx
@@ -50,7 +49,7 @@ def rate_route():
 	c.execute("INSERT INTO posts_scores (post_id, score) VALUES (%s, %s)", [link_id, score_modifier])
 	cnx.commit()
 
-@app.route('/list', methods=['GET'])
+@app.route('/api/list', methods=['GET'])
 @db_route
 def list_route():
 	global c, cnx
