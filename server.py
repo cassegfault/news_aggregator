@@ -53,7 +53,7 @@ def rate_route():
 @db_route
 def list_route():
 	global c, cnx
-	c.execute("SELECT id, title, body, url, date_created FROM posts")
+	c.execute("SELECT id, title, body, url, UNIX_TIMESTAMP(date_created) FROM posts")
 	posts = []
 	for row in c.fetchall():
 		posts.append({
