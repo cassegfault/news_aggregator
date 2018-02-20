@@ -73,8 +73,8 @@ def list_route():
 			'via': row[6]
 			})
 		posts_sources[row[1]] = row[5]
-		site_domain = tldextract.extract(unicode(row[2]))
-		site_domain = '.'.join(part for part in site_domain if part and part != 'www')
+		parts = tldextract.extract(unicode(row[2]))
+		site_domain = '.'.join(part for part in parts if part and part != 'www')
 
 		
 	c.execute("SELECT posts.source_id, score FROM post_scores LEFT JOIN posts ON post_id=posts.id")
