@@ -63,7 +63,7 @@ def list_route():
 			'url': row[3],
 			'date_created': row[4]
 			})
-	return Response(response=json.dumps(post), status=200, mimetype='application/json')
+	return Response(response=json.dumps(posts), status=200, mimetype='application/json')
 
 if __name__ == "__main__":
 	app.run(port=config['port'])
