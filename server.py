@@ -73,7 +73,7 @@ def list_route():
 			'via': row[6]
 			})
 		posts_sources[row[1]] = row[5]
-		site_domain = tldextract.extract(row[2])
+		site_domain = tldextract.extract(unicode(row[2]))
 		if site_domain == '.' or site_domain == 'www':
 			site_domain = '.'.join([site_domain['domain'], site_domain['suffix']])
 		else:
