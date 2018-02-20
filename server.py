@@ -53,7 +53,7 @@ def rate_route():
 	link_id = get_param('post_id',None)
 	score_modifier = get_param('score', None)
 
-	c.execute("INSERT INTO posts_scores (post_id, score) VALUES (%s, %s)", [link_id, score_modifier])
+	c.execute("INSERT INTO post_scores (post_id, score) VALUES (%s, %s)", [link_id, score_modifier])
 	cnx.commit()
 
 @app.route('/api/list', methods=['GET'])
