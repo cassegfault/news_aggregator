@@ -72,8 +72,8 @@ function buildList(listData){
 			down_btn = element(".vote_down"),
 			title = element("a.title");
 
-		up_btn.onclick = make_click_function(post['id'], 1);
-		down_btn.onclick = make_click_function(post['id'], -1);
+		up_btn.onclick = make_click_func(post['id'], 1);
+		down_btn.onclick = make_click_func(post['id'], -1);
 		title.innerHTML = `<h2>${post['title']}</h2>`;
 		title.href = post['body'];
 
