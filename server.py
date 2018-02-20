@@ -2,6 +2,8 @@ from flask import Flask, request, redirect, url_for, session
 import sys, json, base64, time
 import mysql.connector
 
+app = Flask(__name__)
+
 config = {}
 with open('config.json','r') as config_file:
 	config = json.loads(config_file.read())
