@@ -129,7 +129,7 @@ def list_route():
 		return float(float(site_score) - float(site_score_avg)) / float(site_score_std)
 
 	for post in posts:
-		site_domain = site_domain(post['body'])
+		site_domain = normalize_domain(post['body'])
 		post['score'] = source_to_score(post['source_id']) + ts_to_score(post['date_created']) + site_to_score(site_domain)
 
 
