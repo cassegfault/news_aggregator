@@ -45,7 +45,7 @@ function element(string){
 
 (function iife(){
 	var xhr = new XMLHttpRequest();
-	xhr.open("GET","/api/list");
+	xhr.open("GET","http://news.v3x.pw/api/list");
 	xhr.onload = function list_ready(){
 		buildList(JSON.parse(xhr.response));
 	}
@@ -58,7 +58,7 @@ function make_click_func(post_id, score){
 	fdata.append("score", score);
 	return function(){
 		var xhr = new XMLHttpRequest();
-		xhr.open('POST', '/api/rate');
+		xhr.open('POST', 'http://news.v3x.pw/api/rate');
 		xhr.send(fdata);
 	}
 }

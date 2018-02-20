@@ -105,7 +105,11 @@ def list_route():
 		post['score'] = source_to_score(post['source_id']) + ts_to_score(post['date_created'])
 
 
-	return Response(response=json.dumps(sorted(posts, key=lambda p: p['score'], reverse=True), ensure_ascii=False), status=200, mimetype='application/json')
+	resp = Response(response=json.dumps(sorted(posts, key=lambda p: p['score'], reverse=True), ensure_ascii=False), status=200, mimetype='application/json')
+	resp.headers['Access-Control-Allow-Origin'] = request.headers['Origin']
+    # Allow the actual method
+    resp.headers['Access-Control-Allow-Methods'] = request.headers['Access-Control-Request-Method']
+    return resp
 
 if __name__ == "__main__":
 	app.run(port=config['port'])
