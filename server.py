@@ -104,7 +104,7 @@ def list_route():
 		source_score = sum(source_scores[source_id])
 		if source_score == 0:
 			return 0
-		return float(source_score - source_score_avg) / source_score_std
+		return float(float(source_score) - float(source_score_avg)) / float(source_score_std)
 
 	for post in posts:
 		post['score'] = source_to_score(post['source_id']) + ts_to_score(post['date_created'])
