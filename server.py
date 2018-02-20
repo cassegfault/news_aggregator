@@ -1,6 +1,6 @@
 from flask import Flask, request, redirect, url_for, session
 import sys, json, base64, time
-import MySQLdb
+import mysql.connector
 
 config = {}
 with open('config.json','r') as config_file:
