@@ -69,8 +69,8 @@ function buildList(listData){
 	listData.forEach(function list_item_builder(post){
 		var root_el = element(".list-item"),
 			vote_holder = element(".vote-holder"),
-			up_btn = element(".vote-up"),
-			down_btn = element(".vote-down"),
+			up_btn = element(".vote.up"),
+			down_btn = element(".vote.down"),
 			title = element("a.title");
 
 		up_btn.onclick = make_click_func(post['id'], 1);

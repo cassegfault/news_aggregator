@@ -38,10 +38,12 @@ def db_route(func):
 
 # All routes prefixed /api
 
-def get_param(name):
+def get_param(name, default=None):
 	res = request.args.get(name, None)
 	if res is None:
 		res = request.form.get(name, None)
+	if res is None:
+		return default
 	return res
 
 @app.route('/api/rate', methods=['POST'])
