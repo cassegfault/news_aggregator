@@ -68,8 +68,9 @@ function buildList(listData){
 	var list_root = document.getElementById("item-list");
 	listData.forEach(function list_item_builder(post){
 		var root_el = element(".list-item"),
-			up_btn = element(".vote_up"),
-			down_btn = element(".vote_down"),
+			vote_holder = element(".vote-holder"),
+			up_btn = element(".vote-up"),
+			down_btn = element(".vote-down"),
 			title = element("a.title");
 
 		up_btn.onclick = make_click_func(post['id'], 1);
@@ -77,8 +78,9 @@ function buildList(listData){
 		title.innerHTML = `<h2>${post['title']}</h2>`;
 		title.href = post['body'];
 
-		root_el.appendChild(up_btn);
-		root_el.appendChild(down_btn);
+		vote_holder.appendChild(up_btn);
+		vote_holder.appendChild(down_btn);
+		root_el.appendChild(vote_holder);
 		root_el.appendChild(title);
 		list_root.appendChild(root_el);
 	});

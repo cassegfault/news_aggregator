@@ -1,4 +1,5 @@
 from flask import Flask, request, redirect, url_for, session, Response
+from flask_cors import CORS
 import sys, json, base64, time
 import mysql.connector
 from collections import defaultdict
@@ -7,6 +8,7 @@ import numpy
 import tldextract
 
 app = Flask(__name__)
+CORS(app)
 
 config = {}
 with open('config.json','r') as config_file:
