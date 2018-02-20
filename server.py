@@ -94,7 +94,8 @@ def list_route():
 	source_score_avg = numpy.mean(source_score_totals)
 	source_score_std = numpy.std(source_score_totals)
 
-
+	print source_score_avg, source_score_std
+	
 	now = time.time()
 	def ts_to_score(ts):
 		days = int((now - ts) / 86400.0)
@@ -102,7 +103,7 @@ def list_route():
 
 	def source_to_score(source_id):
 		source_score = sum(source_scores[source_id])
-		if int(source_score) == 0 or int(source_score_std) == 0:
+		if int(source_score) == 0 or float(source_score_std) == 0.0:
 			return 0
 		return float(float(source_score) - float(source_score_avg)) / float(source_score_std)
 
