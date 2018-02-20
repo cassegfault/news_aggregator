@@ -95,7 +95,7 @@ def parse_hacker_news(data, source):
 			item = {}
 			for c in child:
 				item[c.tag] = c.text
-			result_list.append( [item['link'], None, item['comments'], item['title'], parse_hn_timestamp(item['pubDate']), source['id']] )
+			result_list.append( [item['link'], None, item['comments'], item['title'], mysql_ts(parse_hn_timestamp(item['pubDate'])), source['id']] )
 	return result_list
 
 def tick():
