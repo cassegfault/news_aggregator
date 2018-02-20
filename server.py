@@ -102,7 +102,7 @@ def list_route():
 
 	def source_to_score(source_id):
 		source_score = sum(source_scores[source_id])
-		if source_score == 0:
+		if int(source_score) == 0 or int(source_score_std) == 0:
 			return 0
 		return float(float(source_score) - float(source_score_avg)) / float(source_score_std)
 
