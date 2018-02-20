@@ -13,7 +13,7 @@ last_db_conn = 0
 def reconnect():
 	global cnx, c, last_db_conn
 	cnx = mysql.connector.connect(host=config['database']['host'], user=config['database']['user'], db=config['database']['database'])
-	c = cnx.Cursor()
+	c = cnx.cursor()
 	last_db_conn = time.time()
 
 reconnect()
