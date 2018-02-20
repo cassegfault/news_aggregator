@@ -46,6 +46,11 @@ def get_param(name, default=None):
 		return default
 	return res
 
+def normalize_domain(url):
+	parts = tldextract.extract(unicode(url))
+	return '.'.join(part for part in parts if part and part != 'www')
+
+
 @app.route('/api/rate', methods=['POST'])
 @db_route
 def rate_route():
@@ -87,8 +92,7 @@ def list_route():
 		source_scores[row[0]].append(row[1])
 
 		# Get the domain to rank those
-		parts = tldextract.extract(unicode(row[2]))
-		site_domain = '.'.join(part for part in parts if part and part != 'www')
+		site_domain = normalize_domain(row[2])
 		site_scores[site_domain].append(row[1])
 
 	#get an average for sources
@@ -118,14 +122,15 @@ def list_route():
 			return 0
 		return float(float(source_score) - float(source_score_avg)) / float(source_score_std)
 
-	def site_to_score(source_id):
-		site_score = sum(site_scores[source_id])
+	def site_to_score(site):
+		site_score = sum(site_scores[site])
 		if int(site_score) == 0 or float(site_score_std) == 0.0:
 			return 0
 		return float(float(site_score) - float(site_score_avg)) / float(site_score_std)
 
 	for post in posts:
-		post['score'] = source_to_score(post['source_id']) + ts_to_score(post['date_created']) + site_to_score(post['body'])
+		site_domain = site_domain(post['body'])
+		post['score'] = source_to_score(post['source_id']) + ts_to_score(post['date_created']) + site_to_score(site_domain)
 
 
 	resp = Response(response=json.dumps(sorted(posts, key=lambda p: p['score'], reverse=True), ensure_ascii=False), status=200, mimetype='application/json')
