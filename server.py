@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, url_for, session, Response
 import sys, json, base64, time
 import mysql.connector
+from collections import defaultdict
 from functools import wraps
 import numpy
 import tldextract
