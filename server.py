@@ -130,7 +130,6 @@ def build_and_score_posts():
 	for post in posts:
 		site_domain = normalize_domain(post['body'])
 		post['score'] = source_to_score(post['source_id']) + ts_to_score(post['date_created']) + site_to_score(site_domain)
-    
     return posts
 
 
