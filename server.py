@@ -143,7 +143,7 @@ def list_route():
 	if cached_posts == None or (time.time() - last_post_cache) > 600:
 		cached_posts = build_and_score_posts()
 		last_post_cache = time.time()
-		cached_posts = sorted(posts, key=lambda p: p['score'], reverse=True)
+		cached_posts = sorted(cached_posts, key=lambda p: p['score'], reverse=True)
 
 	try:
 		page = int(get_param('page',0))
