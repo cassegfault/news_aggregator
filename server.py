@@ -130,7 +130,7 @@ def build_and_score_posts():
 	for post in posts:
 		site_domain = normalize_domain(post['body'])
 		post['score'] = source_to_score(post['source_id']) + ts_to_score(post['date_created']) + site_to_score(site_domain)
-    return posts
+	return posts
 
 
 cached_posts = None
@@ -139,21 +139,21 @@ last_post_cache = 0
 @app.route('/api/list', methods=['GET'])
 @db_route
 def list_route():
-    global cached_posts
-    if cached_posts = None or (time.time() - last_post_cache) > 600:
-        cached_posts = build_and_score_posts()
-        last_post_cache = time.time()
-        cached_posts = sorted(posts, key=lambda p: p['score'], reverse=True)
+	global cached_posts
+	if cached_posts = None or (time.time() - last_post_cache) > 600:
+		cached_posts = build_and_score_posts()
+		last_post_cache = time.time()
+		cached_posts = sorted(posts, key=lambda p: p['score'], reverse=True)
 
-    try:
-        page = int(get_param('page',0))
-    except:
-        return Response(response='{"error":"bad request"}', status=400)
+	try:
+		page = int(get_param('page',0))
+	except:
+		return Response(response='{"error":"bad request"}', status=400)
 
-    per_page = 100
-    start_idx = page * per_page
-    posts = cached_posts[start_idx:start_idx + per_page]
-        
+	per_page = 100
+	start_idx = page * per_page
+	posts = cached_posts[start_idx:start_idx + per_page]
+		
 	resp = Response(response=json.dumps(posts, ensure_ascii=False), status=200, mimetype='application/json')
 
 	return resp
