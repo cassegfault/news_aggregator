@@ -71,12 +71,19 @@ function buildList(listData){
 			vote_holder = element(".vote-holder"),
 			up_btn = element(".vote.up"),
 			down_btn = element(".vote.down"),
-			title = element("a.title");
+			title = element("a.title"),
+            meta_holder = element(".meta"),
+            source = element("a.meta-source"),
+            href = element("a.meta-href"),
+            time = element("span.meta-time");
 
 		up_btn.onclick = make_click_func(post['id'], 1);
 		down_btn.onclick = make_click_func(post['id'], -1);
 		title.innerHTML = `<h2>${post['title']}</h2>`;
 		title.href = post['body'];
+        
+        source = post['via']
+        href = post['url']
 
 		vote_holder.appendChild(up_btn);
 		vote_holder.appendChild(down_btn);
