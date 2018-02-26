@@ -140,7 +140,7 @@ last_post_cache = 0
 @db_route
 def list_route():
 	global cached_posts
-	if cached_posts = None or (time.time() - last_post_cache) > 600:
+	if cached_posts == None or (time.time() - last_post_cache) > 600:
 		cached_posts = build_and_score_posts()
 		last_post_cache = time.time()
 		cached_posts = sorted(posts, key=lambda p: p['score'], reverse=True)
