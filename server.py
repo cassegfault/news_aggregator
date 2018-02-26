@@ -139,7 +139,7 @@ last_post_cache = 0
 @app.route('/api/list', methods=['GET'])
 @db_route
 def list_route():
-	global cached_posts
+	global cached_posts, last_post_cache
 	if cached_posts == None or (time.time() - last_post_cache) > 600:
 		cached_posts = build_and_score_posts()
 		last_post_cache = time.time()
